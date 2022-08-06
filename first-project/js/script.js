@@ -170,6 +170,8 @@ function randomGame() {
   }
   render()
 }
+////////////////////////////////////////////////////////////////////////////////
+
 
 function start() {
   var buttonCalculateImc = document.querySelector('#button-calculate-imc')
@@ -185,6 +187,7 @@ function start() {
   render()
 }
 
+
 function handleIMCButtonClick() {
   var inputWeight = document.querySelector("#input-weight")
   var inputHeight = document.querySelector("#input-height")
@@ -196,7 +199,29 @@ function handleIMCButtonClick() {
 
   var formattedImc = imc.toFixed(2).replace('.', ',')
   imcResult.textContent = formattedImc
+  var analysis = analyse(imc)
+  var analysis_div = document.querySelector('#analysis')
+  if (analysis!=='Invalid') {
+    analysis_div.innerHTML = `<p>Este valor considera que você está na faixa <strong>${analysis}</strong></p>`
+  } else {
+    analysis_div.innerHTML = ''
+  }
+
 }
+
+function analyse(imc) {
+  var analysis
+  if (16<=imc && imc<17) {analysis = 'Muito abaixo do peso'}
+  else if (17<=imc && imc<18.5) {analysis = 'Abaixo do peso'}
+  else if (18.5<=imc && imc<25) {analysis = 'Peso normal'}
+  else if (25<=imc && imc<30) {analysis = 'Acima do peso'}
+  else if (30<=imc && imc<35) {analysis = 'Obesidade grau I'}
+  else if (35<=imc && imc<40) {analysis = 'Obesidade grau II'}
+  else if (40<=imc){analysis = 'Obesidade grau III'}
+  else {analysis='Invalid'}
+  return analysis
+}
+
 function calcularImc(weight, height) {
   return weight/(height*height)
 }
